@@ -2,4 +2,4 @@ vim
 git
 nano 
 wget
-leafpad
+

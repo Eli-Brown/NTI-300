@@ -4,13 +4,12 @@ if [ -z "$1" ]; then
 	echo "Please enter a service to check"
 	exit 0;
 fi
+for packages in $( echo "$@"); do
 
-installed=$(yum list installed $1 | grep $1 | awk -F. '{print $1}' )
-input="$1"
-status=$(systemctl status $1 | grep Active | awk '{print $2}')
+installed=$(yum list installed $packages | grep $packages | awk -F. '{print $1}' )
+input="$packages"
+status=$(systemctl status $packages | grep Active | awk '{print $2}')
 inactive="inactive"
-
-while [ $# > 0 ]; do
 if [ $installed == $input ]; then
 	echo "This is a Service Status check!"
 	if [ $status == $inactive ]; then

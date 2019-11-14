@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$1" ]; then
-	echo "PEBCAK - Enter an argument"
+	echo "Please enter a service to check"
 	exit 0;
 fi
 

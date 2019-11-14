@@ -15,6 +15,7 @@ Def setup_install():
 	os.chdir('/opt/django')
 	os.system('virtualenv django-env')
 	os.system('chown -R eliBrown /opt/django')
+	os.system('adduser -M django && usermod -L django')
 	
 os.system('adduser -M django')
 os.system('chown -R django /opt/django')

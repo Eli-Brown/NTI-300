@@ -1,4 +1,5 @@
 #!/bin/bash
+# installs / update cron
    if [ `id -u`-ne 0 ]; then																#
 																						
       echo "This script can only be executed only with root powers, Now exiting.."			#

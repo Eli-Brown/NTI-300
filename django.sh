@@ -1,9 +1,8 @@
 
 #!/bin/bash
+# django setup via python-pip/virtualenv
 
-
-
-yum install -y python-pip
+yum -y install python-pip
 
 pip install virtualenv
 

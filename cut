@@ -1,4 +1,4 @@
-# Upload new Images and updates Album modification times 
+# adds new images and updates album & mod times 
 cut -f4 -d\| albums
 
 fieldname=$1

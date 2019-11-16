@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+#Now Automate Your Django Install in Python 
 import os
 import re
 import subprocess

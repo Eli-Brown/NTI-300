@@ -20,10 +20,10 @@ mkdir /var/www/html/pages.dir                                                   
     echo "</Limit>" >> /var/www/html/pages.dir/.htaccess                                            # Concatenate to .htaccess
     chmod 755 /var/www/html/pages.dir/.htaccess                                                     # Change .htaccess file permissions to 755
     systemctl restart httpd                                                                         # Restart apache
-    echo '#!/bin/bash' > /root/updating_webpage.sh                                                  # Create the website updating shell script
-    echo 'time=$(date)' >> /root/updating_webpage.sh                                                # Make the variable time equal to $date
-    echo 'echo "<html><body><h1>Welcome to my world $time, </h1></body></html>" > /var/www/html/pages.dir/page2.html' >> /root/updating_webpage.sh # Create page 2 with time/date
-    chmod 755 /root/updating_webpage.sh                                                            # Change permissions to updating_webpage
-    echo '* * * * * /bin/echo "I am running updating_webpage.sh" | logger' > /root/up_web_cron      # Create file used in crontab. Also contains log message
-    echo '* * * * * /root/updating_webpage.sh' >> /root/up_web_cron                                 # Add updating_webpage.sh script
+    echo '#!/bin/bash' > /root/automated_webpage.sh                                                  # Create the website updating shell script
+    echo 'time=$(date)' >> /root/automated_webpage.sh                                                # Make the variable time equal to $date
+    echo 'echo "<html><body><h1>Welcome to my world $time, </h1></body></html>" > /var/www/html/pages.dir/page2.html' >> /root/automated_webpage.sh # Create page 2 with time/date
+    chmod 755 /root/automated_webpage.sh                                                            # Change permissions to updating_webpage
+    echo '* * * * * /bin/echo "I am running automated_webpage.sh" | logger' > /root/up_web_cron      # Create file used in crontab. Also contains log message
+    echo '* * * * * /root/automated_webpage.sh' >> /root/up_web_cron                                 # Add automated_webpage.sh script
     crontab /root/up_web_cron                                                                       # Create the cron job

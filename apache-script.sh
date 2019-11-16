@@ -1,3 +1,4 @@
+#!/bin/bash
 
 yum -y install httpd mod ssl                                                           # start apache commit out welcome page
 systemctl restart httpd                                                                # restart httpd service

@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+# create centos-cloud instance via python
 # Run from the Google cloud shell
 # django-py should be in the same directory
 

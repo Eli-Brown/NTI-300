@@ -1,5 +1,4 @@
-##apache-automation.sh 
-
+## startup-apache-automation.sh 
 #!/bin/bash
 
 if [ -e /etc/httpd ]; then exit 0; fi                                                           # Stops file from overwritting system reboot
@@ -10,8 +9,8 @@ sed -i 's/^/#/g' /etc/httpd/conf.d/welcome.conf                                 
 sed -i '151s/AllowOverride None/AllowOverride All/' /etc/httpd/conf/httpd.conf                  # Replace AllowOverride None with AllowOverride All in the httpd.conf file
 mkdir /var/www/html/pages.dir                                                                 # Make new directory for additional webpages
     echo "<html><body><h1>Welcome to NTI 300</h1><p><a href="pages.dir/page2.html">Page 2</a></p></body></html>" > /var/www/html/index.html  # Create custom welcome page
-    htpasswd -cb /usr/local/etc/.htpasswd Eli P@ssw0rd1                              				# Create .htaccess with user Eli set standard password.
-    htpasswd -b /usr/local/etc/.htpasswd Eli P@ssw0rd1                                           	# Create user Eli with standard password
+    htpasswd -cb /usr/local/etc/.htpasswd eli P@ssw0rd1                              				# Create .htaccess with user Eli set standard password.
+    htpasswd -b /usr/local/etc/.htpasswd eli P@ssw0rd1                                           	# Create user Eli with standard password
     echo "AuthUserFile /usr/local/etc/.htpasswd" > /var/www/html/pages.dir/.htaccess                # Create .htaccess file
     echo 'AuthName "Page2 Access"' >> /var/www/html/pages.dir/.htaccess                             # Concatenate to .htaccess
     echo "AuthType Basic" >> /var/www/html/pages.dir/.htaccess                                      # Concatenate to .htaccess

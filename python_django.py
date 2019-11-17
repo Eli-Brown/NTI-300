@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# create centos-cloud instance via python
+# create centos-cloud instance via python named django
 # Run from the Google cloud shell
 # django-py should be in the same directory
 
@@ -11,9 +11,9 @@ import json
 credentials = GoogleCredentials.get_application_default()
 compute = discovery.build('compute','v1', credentials=credentials)
 
-project = 'rising-rune-254201'
+project = 'nti-300-2019'
 zone = 'us-central1-a'
-name = 'django-final'
+name = 'django'
 
 def list_instances(compute,project,zone):
   result = compute.instances().list(project=project,zone=zone).execute()

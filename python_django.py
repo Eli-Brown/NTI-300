@@ -1,12 +1,10 @@
 #!/usr/bin/python
-# create centos-cloud instance via python named django
-# Run from the Google cloud shell
-# django-py should be in the same directory
+# create centos-cloud instance via python startup_script named django to be started from the Google cloud shell
 
 from oauth2client.client import GoogleCredentials
 from googleapiclient import discovery
-import pprint
 import json
+import pprint
 
 credentials = GoogleCredentials.get_application_default()
 compute = discovery.build('compute','v1', credentials=credentials)
@@ -20,12 +18,12 @@ def list_instances(compute,project,zone):
   return result['items']
   
 def create_instance(compute,project,zone,name):
- startup_script = open('startup-script.sh','r').read()
- image_response = compute.images().getFromFamily(
-   project = 'centos-cloud', family = 'centos-7').execute()
+  startup_script = open('startup-script.sh','r').read()
+  image_response = compute.images().getFromFamily(
+     project = 'centos-cloud', family = 'centos-7').execute()
  
- source_disk_image = image_response['selfLink']
- machine_type = "zones/%s/machineTypes/f1-micro" % zone
+  source_disk_image = image_response['selfLink']
+  machine_type = "zones/%s/machineTypes/f1-micro" % zone
  
  config = {
   'name' : name,
@@ -57,7 +55,6 @@ def create_instance(compute,project,zone,name):
       'https://www.googleapis.com/auth/logging.write'
     ]
   }],
-  
   # Enablle http/https for select instances
   "labels": {
     "http-server": "",
@@ -70,7 +67,6 @@ def create_instance(compute,project,zone,name):
       "https-server"
     ]
   },
-  
   # Metadata is readable from the instances and allows you to pass configuration from deployment scripts to instances.
   'metadata': {
     'items': [{

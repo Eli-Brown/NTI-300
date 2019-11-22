@@ -1,4 +1,5 @@
 #!/usr/bin/python
+#!/usr/bin/python
 
 #this should be run from the google cloud shell
 #startup-script.sh must be in the same dir
@@ -13,7 +14,7 @@ import json
 credentials = GoogleCredentials.get_application_default()
 compute = discovery.build('compute', 'v1', credentials=credentials)
 
-project = 'cogent-genre-254202'
+project = 'singular-tuner-254202'
 zone = 'us-central1-a'
 name = 'test2'
 

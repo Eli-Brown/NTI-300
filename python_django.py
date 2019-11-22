@@ -14,7 +14,7 @@ import json
 credentials = GoogleCredentials.get_application_default()
 compute = discovery.build('compute', 'v1', credentials=credentials)
 
-project = 'singular-tuner-254202'
+project = 'cogent-genre-254202'
 zone = 'us-central1-a'
 name = 'test2'
 

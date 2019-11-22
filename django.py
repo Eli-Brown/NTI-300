@@ -7,7 +7,7 @@ import subprocess
 
 
 
-Def setup_install():
+def setup_install():
 	print('installing pip and virtualenv so we can give django its own version of python')
 	os.system('yum -y install python-pip && pip install --upgrade pip')
 	os.system('pip install virtualenv')

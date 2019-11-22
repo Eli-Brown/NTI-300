@@ -79,14 +79,13 @@ def create_instance(compute,project,zone,name):
     }]
   }
  }
- 
-return compute.instances().insert(
+  return compute.instances().insert(
    project=project,
    zone=zone,
    body=config).execute()
 
-   newinstance = create_instance(compute,project,zone,name)
-   instances = list_instances(compute,project,zone)
+newinstance = create_instance(compute,project,zone,name)
+instances = list_instances(compute,project,zone)
 
 pprint.pprint(newinstance)
 pprint.pprint(instances)

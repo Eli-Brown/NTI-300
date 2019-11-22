@@ -13,6 +13,31 @@ project = 'nti-300-2019'
 zone = 'us-central1-a'
 name = 'django'
 
+def local_repo():
+    repo="""[local-epel]
+name=NTI300 EPEL
+baseurl=http://35.193.67.158/epel/
+gpgcheck=0
+enabled=1"""
+    print(repo)
+    with open("/etc/yum.repos.d/local-repo.repo","w+") as f:
+      f.write(repo)
+    f.close()
+        
+    on="enabled=1"
+    off="enabled=0"
+
+    with open('/etc/yum.repos.d/epel.repo') as f:
+      dissablerepo=f.read().replace(on, off)
+    f.close()
+
+    with open('/etc/yum.repos.d/epel.repo', "w") as f:
+      f.write(dissablerepo)
+    f.close()
+
+local_repo()
+
+
 def list_instances(compute,project,zone):
   result = compute.instances().list(project=project,zone=zone).execute()
   return result['items']

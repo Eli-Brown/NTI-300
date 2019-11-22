@@ -5,6 +5,24 @@ import re
 import subprocess
 
 
+
+
+Def setup_install():
+	print('installing pip and virtualenv so we can give django its own version of python')
+	os.system('yum -y install python-pip && pip install --upgrade pip')
+	os.system('pip install virtualenv')
+	os.chdir('/opt')
+	os.mkdir('/opt/django')
+	os.chdir('/opt/django')
+	os.system('virtualenv django-env')
+	os.system('chown -R eliBrown /opt/django')
+	os.system('adduser -M django && usermod -L django')
+	
+os.system('adduser -M django')
+os.system('chown -R django /opt/django')
+os.system('usermod -L django')	
+
+
 def local_repo():
     repo="""[local-epel]
 name=NTI300 EPEL
@@ -28,22 +46,6 @@ enabled=1"""
     f.close()
 
 local_repo()
-
-
-Def setup_install():
-	print('installing pip and virtualenv so we can give django its own version of python')
-	os.system('yum -y install python-pip && pip install --upgrade pip')
-	os.system('pip install virtualenv')
-	os.chdir('/opt')
-	os.mkdir('/opt/django')
-	os.chdir('/opt/django')
-	os.system('virtualenv django-env')
-	os.system('chown -R eliBrown /opt/django')
-	os.system('adduser -M django && usermod -L django')
-	
-os.system('adduser -M django')
-os.system('chown -R django /opt/django')
-os.system('usermod -L django')	
 	
 def django_install():
 	print('activating virtualenv and instakking django after prereq's are met')

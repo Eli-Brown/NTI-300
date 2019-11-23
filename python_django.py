@@ -4,7 +4,7 @@
 #this should be run from the google cloud shell
 #startup-script.sh must be in the same dir
 #please substitute your project and zone in the project and zone vars
-#please choose a name other than test3
+#run with d_jango.py
 
 from oauth2client.client import GoogleCredentials
 from googleapiclient import discovery
@@ -23,7 +23,7 @@ def list_instances(compute, project, zone):
   return result['items']
   
 def create_instance(compute, project, zone, name):
-    startup_script = open('django.py', 'r').read()
+    startup_script = open('d_jango.py', 'r').read()
     image_response = compute.images().getFromFamily(
       project='centos-cloud', family='centos-7').execute()
     

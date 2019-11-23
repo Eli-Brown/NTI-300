@@ -47,3 +47,56 @@ def create_instance(compute, project, zone, name):
         # internet.
         'networkInterfaces': [{
             'network': 'global/networks/default',
+            'accessConfigs': [
+                {'type': 'ONE_TO_ONE_NAT', 'name': 'External NAT'}
+            ]
+        }],
+  
+        # Allow the instance to access cloud storage and logging>
+        'serviceAccounts': [{
+            'email': 'default',
+            'scopes': [
+                'https://www.googleapis.com/auth/devstorage.read_write',
+                'https://www.googleapis.com/auth/logging.write'
+            ]
+        }],
+  
+        # Enable https/http for select instances
+        "labels": {
+        "http-server": "",
+        "https-server": ""
+        },
+ 
+        "tags": {
+        "items": [
+        "http-server",
+        "https-server"
+        ]
+        },
+ 
+        # Metadata is readable from the instance and allows you to
+        # pass configuration from deployment scripts to instances.
+        'metadata': {
+            'items': [{
+                # Startup script is automatically executed by the
+                # instance upon startup.
+                'key': 'startup-script',
+                'value': startup_script
+            }]
+        }
+    }
+
+
+    return compute.instances().insert(
+                project=project,
+                zone=zone,
+                body=config).execute()
+    
+    
+newinstance = create_instance(compute, project, zone, name)
+instances = list_instances(compute, project, zone)
+
+pprint.pprint(newinstance)
+pprint.pprint(instances)  
+          
+          

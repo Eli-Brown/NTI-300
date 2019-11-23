@@ -16,7 +16,7 @@ compute = discovery.build('compute', 'v1', credentials=credentials)
 
 project = 'cogent-genre-254202'
 zone = 'us-central1-a'
-name = 'django-test1'
+name = 'go-django'
 
 def list_instances(compute, project, zone):
   result = compute.instances().list(project=project, zone=zone).execute()

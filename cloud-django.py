@@ -4,10 +4,10 @@ import os                                                                       
 import subprocess                                                                                   # allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes
 import re
 
-print ('********** Setting up user django**********')                                                         # log messaging
+print ('********** Setting up user django**********')                                               # log messaging
 os.system ('adduser -M django' + \
     '&& usermod -L django' + \
-    '&& chown - R django')                                                                          # add new apache user and set permissions
+    '&& chown - R django')                                                                          # add django as apache user and set permissions
 
 def local_repo():
     repo="""[local-epel]
@@ -35,30 +35,30 @@ def setup_install():
 def django_install():
     print ('********** activating virtualenv & django **********')            # log messaging
     os.system('source /opt/django/django-env/bin/activate ' + \
-        '&& pip install django')                                                                    # activate virtual environment and install django
-    os.chdir('/opt/django')                                                                         # change to the django ve directory
+        '&& pip install django')                                                          # activate virtual environment and install django
+    os.chdir('/opt/django')                                                              # change to the djangodirectory
     os.system('source /opt/django/django-env/bin/activate ' + \
         '&& django-admin --version ' + \
-        '&& django-admin startproject project1')                                                    # activate, log version, set-up new project, "project1"
+        '&& django-admin startproject project1')                                       # activate, log version of django, set-up new project, "project1"
 
 def django_start():
-    print('**********starting django**********')                                                              # log messaging
-    os.system('chown -R django /opt/django')                                                        # set ownership/permissions for directories and sub directories
-    os.chdir('/opt/django/project1')                                                                # change to the proejct directory
+    print('**********starting django**********')                                           # log messaging
+    os.system('chown -R django /opt/django')                                               # set ownership/permissions for directories and sub directories
+    os.chdir('/opt/django/project1')                                                       # change to the proejct directory
     os.system('source /opt/django/django-env/bin/activate ' + \
-        '&& python manage.py migrate')                                                              # activate pythone and migrate to the project
+        '&& python manage.py migrate')                                                    # activate pythone and migrate to the project
     os.system('source /opt/django/django-env/bin/activate ' + \
         '&& echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser(\'admin\', \'admin@newproject.com\', \'pw123456\')" | python manage.py shell')
-                                                                                                    # above line sets-up admin user
+                                                                                        # this line sets-up admin user
     outputwithnewline = subprocess.check_output('curl -s checkip.dyndns.org | sed -e \'s/.*Current IP Address: //\' -e \'s/<.*$//\'',shell=True)
-                                                                                                    # capture IP Address in a string var
+                                                                                      # capture IP Address in a string var
     print('**********project1/settings.py **********')
-    print outputwithnewline                                                                         # log the IP Address
-    output = outputwithnewline.replace("\n", "")                                                    # strip the IP Address var of the EOL character
-    old_string = "ALLOWED_HOSTS = []"                                                               # set var with old value of allowed hosts line
-    new_string = 'ALLOWED_HOSTS = [\'{}\']'.format(output)                                          # set var with new value of allowed hosts line
-    print (new_string)                                                                              # log the new value
-    print (old_string)                                                                              # log the olde value
+    print outputwithnewline                                                                    
+    output = outputwithnewline.replace("\n", "")                             
+    old_string = "ALLOWED_HOSTS = []"                                                         # set var with old value of allowed hosts line
+    new_string = 'ALLOWED_HOSTS = [\'{}\']'.format(output)                                    # set var with new value of allowed hosts line
+    print (new_string)                                                                         # log the new string value
+    print (old_string)                                                                         # log the old stringvalue
     
     with open('project1/settings.py') as f:
         newText=f.read().replace(old_string, new_string)                                            # open settings.py and replace the old value with the new value
@@ -70,11 +70,11 @@ def django_start():
                                                                                                     # activate and start python
 def setup_mod_wsgi():
 
-    os.chdir('/opt/django/project1')                                                                # change into the project directory
+    os.chdir('/opt/django/project1')                                                   # change into the project1 directory
     
     # update settings.py
     new_string = 'STATIC_ROOT = os.path.join(BASE_DIR, "static/")' + '\n'                           # define the new line
-    print (new_string)                                                                              # log the new value
+    print (new_string)                                                                              # log to the new value
 
     with open('project1/settings.py', "a") as f:                                                    # open file for append
         f.write(new_string)                                                                         # append the new line
@@ -98,24 +98,24 @@ def setup_mod_wsgi():
         'WSGIScriptAlias / /opt/django/project1/project1/wsgi.py'
         ]
     
-    f = open('/etc/httpd/conf.d/django.conf',"w+")                                                  # open the file for input. Create it if it does not exist
-    i = 0                                                                                           # set i to zero to start the while loop at the begining of the content array
-    while i < len(django_config_file):                                                              # do while until the array is fully processed
-        newLine = django_config_file[i] + '\n'                                                      # assign new line the value of the current array item and add eol indicator
-        with open('/etc/httpd/conf.d/django.conf', "a") as f:                                       # open the file to append
-                f.write(newLine)                                                                    # write the new line
-        with open('/etc/httpd/conf.d/django.conf') as f:                                            # close the file
+    f = open('/etc/httpd/conf.d/django.conf',"w+")                                            # Create it if it does not exist
+    i = 0                                                                                     # set i to zero to start the while loop at the begining of the content array
+    while i < len(django_config_file):                                                        # do while until the array is fully processed
+        newLine = django_config_file[i] + '\n'                                                # assign new line the value of the current array item and add eol indicator
+        with open('/etc/httpd/conf.d/django.conf', "a") as f:                                 # open & append the file to 
+                f.write(newLine)                                                              # write new line
+        with open('/etc/httpd/conf.d/django.conf') as f:                                      # close the file
                 f.close()
-        i += 1                                                                                      # increment the loop counter
+        i += 1                                                                             # start toincrement the loop counter
     print('********** django.conf updated**********')
     
-    os.system('usermod -a -G django apache')                                                        # be sure this is in the django group
+    os.system('usermod -a -G django apache')                                                  # setup the django group
     os.system('chmod 710 /opt/django')
     os.system('chmod 664 /opt/django/project1/db.sqlite3')
     os.system('chown :apache /opt/django/project1/db.sqlite3')
     os.system('chown :apache /opt/django')
     os.system('systemctl start httpd')
-    os.system('systemctl enable httpd')
+    os.system('systemctl enable httpd')                                                       # start & enable HTTPD services
 
 
 # run the install and start functions
@@ -123,4 +123,4 @@ setup_install()
 django_install()
 django_start()    
 setup_mod_wsgi()
-print ('********** django.py cloud install complete**********')                                                             # log completion
+print ('********** django.py cloud install complete**********')                          # log completion of install

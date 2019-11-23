@@ -13,16 +13,16 @@ import json
 credentials = GoogleCredentials.get_application_default()
 compute = discovery.build('compute', 'v1', credentials=credentials)
 
-project = 'singular-tuner-254202'
+project = 'cogent-genre-254202'
 zone = 'us-central1-a'
-name = 'test2'
+name = 'google-shell-django-final'
 
 def list_instances(compute, project, zone):
   result = compute.instances().list(project=project, zone=zone).execute()
   return result['items']
   
 def create_instance(compute, project, zone, name):
-    startup_script = open('django.py', 'r').read()
+    startup_script = open('cloud-django.py', 'r').read()
     image_response = compute.images().getFromFamily(
       project='centos-cloud', family='centos-7').execute()
     

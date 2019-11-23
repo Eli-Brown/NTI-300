@@ -1,9 +1,10 @@
 #!/usr/bin/python
 
-#this should be run from the google cloud shell
-#startup-script.sh must be in the same dir
-#please substitute your project and zone in the project and zone vars
-#please choose a name other than test3
+# this should be run from the google cloud shell
+# startup-script.sh >>>c loud-django.py must be in the same dir
+# please substitute your project and zone (us-west1-a) in the project( cogent-genre-254202 )and zone vars
+# ****DON'T PANIC!!!****
+
 
 from oauth2client.client import GoogleCredentials
 from googleapiclient import discovery

@@ -11,7 +11,7 @@ import json
 credentials = GoogleCredentials.get_application_default()
 compute = discovery.build('compute','v1', credentials=credentials)
 
-project = 'rising-rune-254201'
+project = 'cogent-genre-254202'
 zone = 'us-central1-a'
 name = 'django-final'
 
@@ -20,7 +20,7 @@ def list_instances(compute,project,zone):
   return result['items']
   
 def create_instance(compute,project,zone,name):
- startup_script = open('final-django.py','r').read()
+ startup_script = open('final-cloud-django-py','r').read()
  image_response = compute.images().getFromFamily(
    project = 'centos-cloud', family = 'centos-7').execute()
  

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 # This should be run from the Google cloud shell
-# django-py must be in the same directory
+# final-cloud-django-py must be in the same directory
 
 from oauth2client.client import GoogleCredentials
 from googleapiclient import discovery

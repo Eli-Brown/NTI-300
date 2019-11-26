@@ -1,0 +1,27 @@
+sudo su
+yum install epel-release
+yum install nginx
+systemctl start nginx
+systemctl enable nginx
+systemctl status nginx
+firewall-cmd --zone=public --permanent --add-service=http
+firewall-cmd --zone=public --permanent --add-service=https
+firewall-cmd --reload
+http://35.193.67.158
+yum install createrepo  yum-utils
+reposync -g -l -d -m --repoid=epel --newest-only --download-metadata --download_path=/var/www/html/repos/
+createrepo -g comps.xml /var/www/html/repos/
+vim /etc/nginx/conf.d/repos.conf 
+
+server {
+        listen       80 default_server;
+#        listen       [::]:80 default_server;
+        server_name  _;
+        root   /var/www/html/repos;
+
+
+        location / {
+                index  index.php index.html index.htm;
+                autoindex on;   #enable listing of directory index
+        }
+    }

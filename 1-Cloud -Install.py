@@ -1,9 +1,9 @@
 #!/usr/bin/python
 
-#this should be run from the google cloud shell
-#startup-script.sh (go-django-go.py)  must be in the same dir
-#please substitute your project and zone in the project and zone vars
-#please choose a name other than GO
+# this should be run from the google cloud shell
+# go-django-go.py must be in the same dir
+# please substitute your project and (us-west1-a)zone in the project and zone vars
+# please choose a name other than newtest
 
 from oauth2client.client import GoogleCredentials
 from googleapiclient import discovery
@@ -15,7 +15,7 @@ compute = discovery.build('compute', 'v1', credentials=credentials)
 
 project = 'cogent-genre-254202'
 zone = 'us-west1-a'
-name = 'GO'
+name = 'newtest'
 
 def list_instances(compute, project, zone):
   result = compute.instances().list(project=project, zone=zone).execute()
@@ -99,5 +99,4 @@ instances = list_instances(compute, project, zone)
 
 pprint.pprint(newinstance)
 pprint.pprint(instances)
-   
    

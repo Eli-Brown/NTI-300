@@ -1,24 +1,15 @@
-
 #!/usr/bin/python
 
 
-
-import os                                                                                           # adds access to os.system
-
-import subprocess                                                                                   # allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes
-
 import re
-
-
+import os                                                                                           # adds access to os.system
+import subprocess                                                                                   # allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes
 
 print ('********** Setting up user django')                                                         # log messaging
 
 os.system ('adduser -M django' + \
-
     '&& usermod -L django' + \
-
     '&& chown - R django')                                                                          # add new apache user and set permissions
-
 
 
 def local_repo():
@@ -34,14 +25,13 @@ def local_repo():
     with open("/etc/yum.repos.d/local-repo.repo","w+") as f:
       f.write(repo)
     f.close()
-
 local_repo()
 
 
 
 def setup_install():
 
-    print ('********** installing pip & virtualenv so we can give django its own ver of python')    # log messaging
+    print ('********** installing pip & virtualenv so we can give django its own ver of python**********')    # log messaging
     os.system('yum -y install python-pip httpd mod_wsgi && pip install --upgrade pip')              # install python httpd mod_wsgi and then upgrade python to latest version
     os.system('pip install virtualenv')                                                             # install virual environemtn manager
     os.chdir('/opt')                                                                                # change to the directory created during install
@@ -90,11 +80,8 @@ def django_start():
     with open('project1/settings.py') as f:
         newText=f.read().replace(old_string, new_string)                                            # open settings.py and replace the old value with the new value
     with open('project1/settings.py', "w") as f:
-
         f.write(newText)                                                                            # write the updated settings.py file
-
     with open('project1/settings.py') as f:
-
         f.close()                                                                                   # close the settings.py file
 
     os.system('sudo -u django sh -c "source /opt/django/django-env/bin/activate && python manage.py runserver 0.0.0.0:8000&"')
@@ -105,9 +92,7 @@ def setup_mod_wsgi():
 
     print('********** setup mod wsgi install**********')                                                      # log messaging
     os.chdir('/opt/django/project1')                                                                # change into the project1 directory
-
     # update settings.py
-
     new_string = 'STATIC_ROOT = os.path.join(BASE_DIR, "static/")' + '\n'                           # define this new line
     print (new_string)                                                                              # log  new value
     with open('project1/settings.py', "a") as f:                                                    # open file and append
@@ -116,10 +101,8 @@ def setup_mod_wsgi():
         f.close()
         
     print('********** settings.py updated**********')
-
     # update the django.conf file for httpd
     # define django.conf file content as an array
-
     django_config_file = [
         'Alias /static /opt/django/project1/static/',
         '<Directory /opt/django/project1/static/>',
